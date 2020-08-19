@@ -1,6 +1,6 @@
 # MRP NodeJS Coding Challenge
 
-Thank you for your interest in MRP. This challenge is intended to help us better understand your approach to solving problems using the NodeJS runtime. We are excited to have you as a candidate for our available NodeJS Software Engineering role, and we are looking forward to reviewing your submission.
+Thank you for your interest in MRP. This challenge is intended to help us better understand your approach to solving problems using the NodeJS runtime. We are excited about your candidacy, and we are looking forward to reviewing your submission.
 
 ## Dependencies
 
