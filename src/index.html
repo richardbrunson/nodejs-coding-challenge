@@ -169,7 +169,60 @@
         };
 
         const createUser = () => {
-            console.log('createUser() ' + Math.random());
+            //console.log('createUser() ' + Math.random());
+
+            let html = `
+                    <div id="add-user-form" class="user-update-form" style="display: block;">
+                        <div><span>Name:</span> <input type="text" class="user-add-name" value="" /></div>
+                        <div><span>Email:</span> <input type="text" class="user-add-email" value="" /></div>
+                        <div><span>Phone:</span> <input type="text" class="user-add-phone" value="" /></div>
+                        <div><span>Birthdate:</span> <input type="text" class="user-add-bday" value="" /></div>
+                        <div class="user-address">
+                            <div><span>Address:</span> <input type="text" class="user-add-street" value="" /></div>
+                            <div><span>City:</span> <input type="text" class="user-add-city" value="" /></div>
+                            <div><span>State:</span> <input type="text" class="user-add-state" value="" /></div>
+                            <div><span>Zip Code:</span> <input type="text" class="user-add-zip" value="" /></div>
+                            <div><span>Country:</span> <input type="text" class="user-add-country" value="" /></div>
+                        </div>
+                        <div class="user-update-options">
+                            <span class="user-save" onclick="addUser()">Add</span>
+                        </div>
+                    </div>
+                    `;
+            $('#content').html(html);
+        };
+
+        const addUser = (addUser) => {
+            //console.log(`updateSaveUser(${userId}) ` + Math.random());
+            const newUser = {},
+                form = $(`#add-user-form`),
+                email = form.find('.user-add-email').val(),
+                name = form.find('.user-add-name').val(),
+                dateOfBirth = form.find('.user-add-bday').val(),
+                phoneNumber = form.find('.user-add-phone').val(),
+                street = form.find('.user-add-street').val(),
+                city = form.find('.user-add-city').val(),
+                state = form.find('.user-add-state').val(),
+                zipCode = form.find('.user-add-zip').val(),
+                country = form.find('.user-add-country').val();
+
+            //console.log('saveUser: ' + theUser + ' ' + Math.random());
+
+            newUser.userId = userId++;
+            newUser.email = email;
+            newUser.name = name;
+            newUser.dateOfBirth = dateOfBirth;
+            newUser.phoneNumber = phoneNumber;
+            newUser.address = {};
+            newUser.address.street = street;
+            newUser.address.city = city;
+            newUser.address.state = state;
+            newUser.address.zipCode = zipCode;
+            newUser.address.country = country;
+            users.push(newUser);
+
+            form.hide();
+            viewUsers();
         };
 
         const updateUser = (userId) => {
