@@ -31,7 +31,8 @@
             overflow-y: auto;
         }
         
-        .user {
+        .user,
+        .user-update-form {
             background-color: #fff;
             border: solid 1px #ccc;
             border-radius: 10px;
@@ -49,12 +50,14 @@
         
         .user-update-form span {
             display: inline-block;
+            font-size: 10pt;
             width: 80px;
         }
         
         .user-update-form input {
             border: solid 1px #ccc;
-            width: 320px;
+            font-size: 10pt;
+            width: 285px;
         }
         
         .user-name {
@@ -105,21 +108,31 @@
         <div id="view" class="endpoint">View all of the users</div>
         <div id="create" class="endpoint">Create a new user</div>
     </div>
-    <div id="content">
-
-    </div>
+    <div id="content"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         'use strict';
 
-        let users;
+        let users,
+            userId = 0;
+
+        const getUser = (userId) => {
+            //console.log(`getUser(${userId})`);
+            let theUser;
+            users.forEach((user) => {
+                if (user.userId == userId) {
+                    theUser = user;
+                }
+            });
+            return theUser;
+        };
 
         const viewUsers = () => {
             let html = '';
-            users.map(user => {
+            users.map((user) => {
                 html += `
-                    <div class="user-update-form">
+                    <div id="user-update-form-${user.userId}" class="user-update-form">
                         <div><span>Name:</span> <input type="text" class="user-update-name" value="${user.name}" /></div>
                         <div><span>Email:</span> <input type="text" class="user-update-email" value="${user.email}" /></div>
                         <div><span>Phone:</span> <input type="text" class="user-update-phone" value="${user.phoneNumber}" /></div>
@@ -128,14 +141,14 @@
                             <div><span>Address:</span> <input type="text" class="user-update-street" value="${user.address.street}" /></div>
                             <div><span>City:</span> <input type="text" class="user-update-city" value="${user.address.city}" /></div>
                             <div><span>State:</span> <input type="text" class="user-update-state" value="${user.address.state}" /></div>
-                            <div><span>Zip Code:</span> <input type="text" class="user-update-country" value="${user.address.zipCode}" /></div>
+                            <div><span>Zip Code:</span> <input type="text" class="user-update-zip" value="${user.address.zipCode}" /></div>
                             <div><span>Country:</span> <input type="text" class="user-update-country" value="${user.address.country}" /></div>
                         </div>
                         <div class="user-update-options">
-                            <span class="user-save" onclick="updateSaveUser(this)">Save</span>
+                            <span class="user-save" onclick="saveUser(${user.userId})">Save</span>
                         </div>
                     </div>
-                    <div class="user">
+                    <div id="user-${user.userId}" class="user">
                         <div class="user-name">${user.name}</div>
                         <div class="user-email">Email: <a href="mailto:${user.email}">${user.email}</a></div>
                         <div class="user-phone">Phone: <span>${user.phoneNumber}</span></div>
@@ -146,30 +159,59 @@
                             <div class="user-country">${user.address.country}</div>
                         </div>
                         <div class="user-options">
-                            <span class="user-update" onclick="updateUser(this)">Update</span>
-                            <span class="user-delete" onclick="deleteUser(this)">Delete</span>
+                            <span class="user-update" onclick="updateUser(${user.userId})">Update</span>
+                            <span class="user-delete" onclick="deleteUser(${user.userId})">Delete</span>
                         </div>
                     </div>
                     `;
             });
             $('#content').html(html);
-        }
+        };
 
         const createUser = () => {
             console.log('createUser() ' + Math.random());
-        }
-
-        const updateUser = (user) => {
-            console.log(`updateUser(${user}) ` + Math.random());
-        }
-
-        const updateSaveUser = (user, data) => {
-            console.log(`updateSaveUser(${user}) ` + Math.random());
         };
 
-        const deleteUser = (user) => {
-            console.log(`deleteUser(${user}) ` + Math.random());
-        }
+        const updateUser = (userId) => {
+            //console.log(`updateUser(${userId}) ` + Math.random());
+            $(`#user-${userId}`).hide();
+            $(`#user-update-form-${userId}`).css('display', 'inline-block').show();
+        };
+
+        const saveUser = (userId) => {
+            //console.log(`updateSaveUser(${userId}) ` + Math.random());
+            const theUser = getUser(userId),
+                form = $(`#user-update-form-${userId}`),
+                email = form.find('.user-update-email').val(),
+                name = form.find('.user-update-name').val(),
+                dateOfBirth = form.find('.user-update-bday').val(),
+                phoneNumber = form.find('.user-update-phone').val(),
+                street = form.find('.user-update-street').val(),
+                city = form.find('.user-update-city').val(),
+                state = form.find('.user-update-state').val(),
+                zipCode = form.find('.user-update-zip').val(),
+                country = form.find('.user-update-country').val();
+
+            //console.log('saveUser: ' + theUser + ' ' + Math.random());
+
+            theUser.email = email;
+            theUser.name = name;
+            theUser.dateOfBirth = dateOfBirth;
+            theUser.phoneNumber = phoneNumber;
+            theUser.address.street = street;
+            theUser.address.city = city;
+            theUser.address.state = state;
+            theUser.address.zipCode = zipCode;
+            theUser.address.country = country;
+
+            $(`#user-update-form-${userId}`).hide();
+            $(`#user-${userId}`).show();
+            viewUsers();
+        };
+
+        const deleteUser = (userId) => {
+            console.log(`deleteUser(${userId}) ` + Math.random());
+        };
 
         $(document).ready(() => {
             getUsers();
@@ -783,7 +825,11 @@
                     "zipCode": "22933-3258",
                     "country": "Botswana"
                 }
-            }]
+            }];
+
+            users.forEach((user) => {
+                user.userId = userId++;
+            });
         };
     </script>
 </body>
