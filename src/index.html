@@ -43,6 +43,20 @@
             width: 380px;
         }
         
+        .user-update-form {
+            display: none;
+        }
+        
+        .user-update-form span {
+            display: inline-block;
+            width: 80px;
+        }
+        
+        .user-update-form input {
+            border: solid 1px #ccc;
+            width: 320px;
+        }
+        
         .user-name {
             color: #c30;
             font-weight: bold;
@@ -58,12 +72,14 @@
             margin-left: 67px;
         }
         
-        .user-options {
+        .user-options,
+        .user-update-options {
             margin-top: 15px;
         }
         
         .user-update,
-        .user-delete {
+        .user-delete,
+        .user-save {
             border-radius: 10px;
             cursor: pointer;
             font-size: 9pt;
@@ -72,7 +88,8 @@
             padding: 10px;
         }
         
-        .user-update {
+        .user-update,
+        .user-save {
             background-color: #0c0;
         }
         
@@ -102,6 +119,22 @@
             let html = '';
             users.map(user => {
                 html += `
+                    <div class="user-update-form">
+                        <div><span>Name:</span> <input type="text" class="user-update-name" value="${user.name}" /></div>
+                        <div><span>Email:</span> <input type="text" class="user-update-email" value="${user.email}" /></div>
+                        <div><span>Phone:</span> <input type="text" class="user-update-phone" value="${user.phoneNumber}" /></div>
+                        <div><span>Birthdate:</span> <input type="text" class="user-update-bday" value="${user.dateOfBirth}" /></div>
+                        <div class="user-address">
+                            <div><span>Address:</span> <input type="text" class="user-update-street" value="${user.address.street}" /></div>
+                            <div><span>City:</span> <input type="text" class="user-update-city" value="${user.address.city}" /></div>
+                            <div><span>State:</span> <input type="text" class="user-update-state" value="${user.address.state}" /></div>
+                            <div><span>Zip Code:</span> <input type="text" class="user-update-country" value="${user.address.zipCode}" /></div>
+                            <div><span>Country:</span> <input type="text" class="user-update-country" value="${user.address.country}" /></div>
+                        </div>
+                        <div class="user-update-options">
+                            <span class="user-save" onclick="updateSaveUser(this)">Save</span>
+                        </div>
+                    </div>
                     <div class="user">
                         <div class="user-name">${user.name}</div>
                         <div class="user-email">Email: <a href="mailto:${user.email}">${user.email}</a></div>
@@ -130,6 +163,10 @@
             console.log(`updateUser(${user}) ` + Math.random());
         }
 
+        const updateSaveUser = (user, data) => {
+            console.log(`updateSaveUser(${user}) ` + Math.random());
+        };
+
         const deleteUser = (user) => {
             console.log(`deleteUser(${user}) ` + Math.random());
         }
@@ -143,12 +180,6 @@
             $('#create').click(() => {
                 createUser();
             });
-            // $('.user-update').click((user) => {
-            //     updateUser($(user));
-            // });
-            // $('.user-delete').click((user) => {
-            //     deleteUser($(user));
-            // });
         });
 
         const getUsers = () => {
