@@ -210,7 +210,12 @@
         };
 
         const deleteUser = (userId) => {
-            console.log(`deleteUser(${userId}) ` + Math.random());
+            //console.log(`deleteUser(${userId}) ` + Math.random());
+
+            if (prompt('Do you really want to delete this user? This cannot be undone!') != null) {
+                users.splice(userId, 1);
+                viewUsers();
+            }
         };
 
         $(document).ready(() => {
