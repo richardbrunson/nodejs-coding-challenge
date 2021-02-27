@@ -28,19 +28,19 @@
             border-radius: 10px;
             height: 600px;
             padding: 10px;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
         
         .user {
             background-color: #fff;
             border: solid 1px #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
             display: inline-block;
             margin-bottom: 20px;
             margin-right: 10px;
-            padding: 10px;
-            padding-bottom: 20px;
-            width: 350px;
+            padding: 15px;
+            padding-bottom: 25px;
+            width: 380px;
         }
         
         .user-name {
@@ -51,6 +51,11 @@
         .user-email a,
         .user-phone span {
             font-weight: bold;
+        }
+        
+        .user-city,
+        .user-country {
+            margin-left: 67px;
         }
         
         .user-options {
@@ -101,15 +106,15 @@
                         <div class="user-name">${user.name}</div>
                         <div class="user-email">Email: <a href="mailto:${user.email}">${user.email}</a></div>
                         <div class="user-phone">Phone: <span>${user.phoneNumber}</span></div>
-                        <div class="user-bday">Birthdate: ${user.dateOfBirth}</div>
+                        <div class="user-bday">Birthdate: ${new Date(user.dateOfBirth).toString()}</div>
                         <div class="user-address">
-                            <div class="user-street">${user.address.street}</div>
+                            <div class="user-street">Address: ${user.address.street}</div>
                             <div class="user-city">${user.address.city}, ${user.address.state} ${user.address.zipCode}</div>
                             <div class="user-country">${user.address.country}</div>
                         </div>
                         <div class="user-options">
-                            <span class="user-update">Update</span>
-                            <span class="user-delete">Delete</span>
+                            <span class="user-update" onclick="updateUser(this)">Update</span>
+                            <span class="user-delete" onclick="deleteUser(this)">Delete</span>
                         </div>
                     </div>
                     `;
@@ -121,29 +126,29 @@
             console.log('createUser() ' + Math.random());
         }
 
-        const updateUser = () => {
-            console.log('updateUser() ' + Math.random());
+        const updateUser = (user) => {
+            console.log(`updateUser(${user}) ` + Math.random());
         }
 
-        const deleteUser = () => {
-            console.log('deleteUser() ' + Math.random());
+        const deleteUser = (user) => {
+            console.log(`deleteUser(${user}) ` + Math.random());
         }
 
         $(document).ready(() => {
             getUsers();
 
             $('#view').click(() => {
-                viewUsers()
+                viewUsers();
             });
             $('#create').click(() => {
-                createUser()
+                createUser();
             });
-            $('#update').click(() => {
-                updateUser()
-            });
-            $('#delete').click(() => {
-                deleteUser()
-            });
+            // $('.user-update').click((user) => {
+            //     updateUser($(user));
+            // });
+            // $('.user-delete').click((user) => {
+            //     deleteUser($(user));
+            // });
         });
 
         const getUsers = () => {
