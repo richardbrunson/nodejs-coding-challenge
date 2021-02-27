@@ -118,7 +118,6 @@
             userId = 0;
 
         const getUser = (userId) => {
-            //console.log(`getUser(${userId})`);
             let theUser;
             users.forEach((user) => {
                 if (user.userId == userId) {
@@ -169,8 +168,6 @@
         };
 
         const createUser = () => {
-            //console.log('createUser() ' + Math.random());
-
             let html = `
                     <div id="add-user-form" class="user-update-form" style="display: block;">
                         <div><span>Name:</span> <input type="text" class="user-add-name" value="" /></div>
@@ -193,7 +190,6 @@
         };
 
         const addUser = (addUser) => {
-            //console.log(`updateSaveUser(${userId}) ` + Math.random());
             const newUser = {},
                 form = $(`#add-user-form`),
                 email = form.find('.user-add-email').val(),
@@ -205,8 +201,6 @@
                 state = form.find('.user-add-state').val(),
                 zipCode = form.find('.user-add-zip').val(),
                 country = form.find('.user-add-country').val();
-
-            //console.log('saveUser: ' + theUser + ' ' + Math.random());
 
             newUser.userId = userId++;
             newUser.email = email;
@@ -226,13 +220,11 @@
         };
 
         const updateUser = (userId) => {
-            //console.log(`updateUser(${userId}) ` + Math.random());
             $(`#user-${userId}`).hide();
             $(`#user-update-form-${userId}`).css('display', 'inline-block').show();
         };
 
         const saveUser = (userId) => {
-            //console.log(`updateSaveUser(${userId}) ` + Math.random());
             const theUser = getUser(userId),
                 form = $(`#user-update-form-${userId}`),
                 email = form.find('.user-update-email').val(),
@@ -244,8 +236,6 @@
                 state = form.find('.user-update-state').val(),
                 zipCode = form.find('.user-update-zip').val(),
                 country = form.find('.user-update-country').val();
-
-            //console.log('saveUser: ' + theUser + ' ' + Math.random());
 
             theUser.email = email;
             theUser.name = name;
@@ -263,8 +253,6 @@
         };
 
         const deleteUser = (userId) => {
-            //console.log(`deleteUser(${userId}) ` + Math.random());
-
             if (prompt('Do you really want to delete this user? This cannot be undone!') != null) {
                 users.splice(userId, 1);
                 viewUsers();
